@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ICompetition } from '~/interfaces/ICompetition';
+
 
 const Competicoes: React.FC = () => {
     const [competitionName, setCompetitionName] = useState<string>('');
     const [competition, setCompetition] = useState<ICompetition | null>(null);
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [allSuggestions, setAllSuggestions] = useState<string[]>([]); 
+    const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+    const [allSuggestions, setAllSuggestions] = useState<string[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const fetchCompetitionNames = async () => {
             try {
                 const response = await fetch('/api/competicao/names');
                 const data = await response.json();
-                setAllSuggestions(data); 
-                setSuggestions(data);
+                setAllSuggestions(data);
             } catch (error) {
                 console.error('Erro ao buscar sugestões: ', error);
             }
         };
 
         fetchCompetitionNames();
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setShowSuggestions(false);
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
     }, []);
 
     const handleSearch = async () => {
@@ -34,7 +44,7 @@ const Competicoes: React.FC = () => {
 
     const handleSuggestionClick = (suggestion: string) => {
         setCompetitionName(suggestion);
-        setSuggestions([]);
+        setShowSuggestions(false);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,47 +54,80 @@ const Competicoes: React.FC = () => {
         const filteredSuggestions = allSuggestions.filter(suggestion =>
             suggestion.toLowerCase().includes(value.toLowerCase())
         );
-        setSuggestions(filteredSuggestions);
+        setSuggestions(filteredSuggestions.slice(0, 5));
+        setShowSuggestions(true);
 
         if (value === '') {
             setCompetition(null);
         }
     };
 
+    const handleButtonClick = () => {
+        handleSearch();
+        setShowSuggestions(false);
+    };
+
     return (
-        <div>
+        <div style={{ position: 'relative' }}>
             <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>Buscar Liga</h1>
 
-            <input
-                type="text"
-                value={competitionName}
-                onChange={handleInputChange}
-                placeholder="Digite o nome da liga"
-                style={{
-                    padding: '10px',
-                    fontSize: '16px',
-                    border: '1px solid #ccc',
-                    borderRadius: '5px',
-                    marginRight: '10px',
-                }}
-            />
-            <button
-                onClick={handleSearch}
-                style={{
-                    padding: '10px',
-                    backgroundColor: 'blue',
-                    color: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                }}
-            >
-                Buscar
-            </button>
+            <div style={{ display: 'flex' }}>
+                <input
+                    ref={inputRef}
+                    type="text"
+                    value={competitionName}
+                    onChange={handleInputChange}
+                    placeholder='Digite o nome da liga'
+                    style={{
+                        padding: '10px',
+                        fontSize: '16px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                        marginRight: '10px',
+                        flex: 1
+                    }}
+                />
+                <button
+                    onClick={handleButtonClick}
+                    style={{
+                        padding: '10px',
+                        backgroundColor: 'blue',
+                        color: 'white',
+                        border: 'none',
+                        cursor: 'pointer'
+                    }}
+                >
+                    Buscar
+                </button>
+            </div>
 
-            {suggestions.length > 0 && (
-                <ul>
+            {showSuggestions && suggestions.length > 0 && (
+                <ul
+                    style={{
+                        position: 'absolute',
+                        top: 'calc(100% + 5px)',
+                        left: 0,
+                        width: 'calc(100% - 2px)',
+                        backgroundColor: '#fff',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                        padding: '5px 0',
+                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                        zIndex: 1,
+                        maxHeight: '150px',
+                        overflowY: 'auto'
+                    }}
+                >
                     {suggestions.map((suggestion, index) => (
-                        <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                        <li
+                            key={index}
+                            onClick={() => handleSuggestionClick(suggestion)}
+                            style={{
+                                padding: '5px 10px',
+                                cursor: 'pointer',
+                                borderBottom: index !== suggestions.length - 1 ? '1px solid #ccc' : 'none'
+                            }}
+                        >
                             {suggestion}
                         </li>
                     ))}
@@ -115,6 +158,7 @@ const Competicoes: React.FC = () => {
             ) : (
                 <p>{competition && `Não conseguimos encontrar ${competitionName}, você digitou o nome corretamente?`}</p>
             )}
+
         </div>
     );
 };
