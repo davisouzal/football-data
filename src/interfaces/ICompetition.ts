@@ -1,3 +1,5 @@
+import IArea from "./IArea";
+
 export interface ICompetitionResponse {
     count: number;
     filters: {};
@@ -16,13 +18,6 @@ export interface ICompetition {
     plan?: string;
     numberOfAvailableSeasons?: number;
     lastUpdated: string;
-}
-
-export interface IArea {
-    id: number;
-    name: string;
-    code: string;
-    flag: string | null;
 }
 
 interface ISeason {

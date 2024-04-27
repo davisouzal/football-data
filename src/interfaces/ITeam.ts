@@ -1,4 +1,5 @@
-import { IArea } from "./ICompetition";
+
+import IArea from "./IArea";
 import { ITeamStandings } from "./IStandings";
 
 export interface ITeam extends ITeamStandings{
@@ -9,10 +10,13 @@ export interface ITeam extends ITeamStandings{
     clubColors: string;
     venue: string;
     runningCompetitions: IRunningCompetitions[];
+}
+
+export interface ITeamComplete extends ITeam{
     coach: ICoach;
     squad: ISquad[];
     staff: string[] | null;
-    lastUpdated: string;
+    lastUpdated?: string;
 }
 
 interface IRunningCompetitions{

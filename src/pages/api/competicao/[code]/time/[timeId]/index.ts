@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import IError from '~/interfaces/IError';
+import { IError } from '~/interfaces/IError';
 import { ISquad, ITeam } from '~/interfaces/ITeam';
 import { getTeamById } from '~/utils/footballDataUtils';
 
