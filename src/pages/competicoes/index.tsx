@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ICompetition } from '~/interfaces/ICompetition';
+import { useRouter } from 'next/router';
 
 
 const Competicoes: React.FC = () => {
@@ -9,6 +10,8 @@ const Competicoes: React.FC = () => {
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [allSuggestions, setAllSuggestions] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const router = useRouter();
 
     useEffect(() => {
         const fetchCompetitionNames = async () => {
@@ -65,6 +68,13 @@ const Competicoes: React.FC = () => {
     const handleButtonClick = () => {
         handleSearch();
         setShowSuggestions(false);
+    };
+
+    const handleCompeticaoClick = () => {
+        console.log('Clicou na competição', competition);
+        if(competition && competition.code) {
+            router.push(`/competicoes/${competition.code}/standings`);
+        }
     };
 
     return (
@@ -154,6 +164,9 @@ const Competicoes: React.FC = () => {
                         Temporada Atual: {competition.currentSeason.startDate} até{' '}
                         {competition.currentSeason.endDate}
                     </p>
+                    <button onClick={handleCompeticaoClick} style={{ padding: '10px', backgroundColor: 'blue', color: 'white', border: 'none', cursor: 'pointer' }}>
+                        Ver Classificação
+                    </button>
                 </div>
             ) : (
                 <p>{competition && `Não conseguimos encontrar ${competitionName}, você digitou o nome corretamente?`}</p>
