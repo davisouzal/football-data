@@ -1,41 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { ICompetition, ICompetitionResponse } from '~/interfaces/ICompetition';
-import { getTeamsByCompetionId } from '~/utils/footballDataUtils';
+import React, { useEffect, useState } from 'react'
+import { ICompetition, ICompetitionResponse } from '~/interfaces/ICompetition'
 
 const Competicoes: React.FC = () => {
-    const [competitionResponse, setCompetitionResponse] = useState<ICompetitionResponse | null>(null);
-    const [competitions, setCompetitions] = useState<ICompetition[]>([]);
+    const [competitionResponse, setCompetitionResponse] =
+        useState<ICompetitionResponse | null>(null)
+    const [competitions, setCompetitions] = useState<ICompetition[]>([])
 
     useEffect(() => {
         const fetchData = async () => {
-            try{
-                // setCompetitionResponse(getTeamsByCompetionId(BSA);
+            try {
+                const response = await fetch('/api/competicao/all')
+                const responseData = await response.json()
+
+                console.log(responseData)
+                setCompetitionResponse(responseData)
+                setCompetitions(responseData.competitions)
             } catch (error) {
-                console.error('Erro ao buscar competições: ', error);
+                console.error('Erro ao buscar competições: ', error)
             }
         }
 
-    fetchData();
-    }, []);
+        fetchData()
+    }, [])
 
     return (
         <div>
-        <h1>Competições de Futebol</h1>
-        {competitionResponse && (
-            <>
-                <h2>Possuímos os dados de: {competitionResponse.count}</h2>
-                <ul>
-                    {competitions.map((competition, index) => (
-                        <li key={index}>
-                            <p>Nome: {competition.name}</p>
-                            <p>Id: {competition.id}</p>
-                        </li>
-                    ))}
-                </ul>
-            </>
-        )}
-    </div>
-    );
+            <h1>Competições de Futebol</h1>
+            {competitionResponse && (
+                <>
+                    <h2>Possuímos os dados de: {competitionResponse.count}</h2>
+                    <ul>
+                        {competitions.map((competition, index) => (
+                            <li key={index}>
+                                <p>Nome: {competition.name}</p>
+                                <p>Id: {competition.id}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+        </div>
+    )
 }
 
-export default Competicoes;
+export default Competicoes
