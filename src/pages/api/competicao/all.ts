@@ -3,7 +3,7 @@ import { getAllCompetitions, getAllMockedCompetitions } from '~/utils/footballDa
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     try {
-        const competitions = await getAllMockedCompetitions();
+        const competitions = await getAllCompetitions();
         if (!competitions) {
             return res.status(404).json({ message: 'Not found' });
         }

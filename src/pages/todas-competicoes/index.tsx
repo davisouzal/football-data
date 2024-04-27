@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ICompetition, ICompetitionResponse } from '~/interfaces/ICompetition';
+import { getTeamsByCompetionId } from '~/utils/footballDataUtils';
 
 const Competicoes: React.FC = () => {
     const [competitionResponse, setCompetitionResponse] = useState<ICompetitionResponse | null>(null);
@@ -8,10 +9,7 @@ const Competicoes: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await fetch('/api/competicao/all');
-                const data = await response.json();
-                setCompetitionResponse(data);
-                setCompetitions(data.competitions);
+                // setCompetitionResponse(getTeamsByCompetionId(BSA);
             } catch (error) {
                 console.error('Erro ao buscar competições: ', error);
             }

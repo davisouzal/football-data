@@ -1,5 +1,3 @@
-// pages/competicoes/[id]/standings.tsx
-
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
@@ -56,6 +54,7 @@ const StandingsPage = () => {
         <tbody>
           {standingsData.table.map((team: any) => (
             <tr key={team.position}>
+              <td style={{ textAlign: 'center' }}>{team.points}</td>
               <td style={{ textAlign: 'center' }}>{team.position}</td>
               <td style={{ verticalAlign: 'middle' }}>
                 <img
@@ -69,7 +68,6 @@ const StandingsPage = () => {
               <td style={{ textAlign: 'center' }}>{team.won}</td>
               <td style={{ textAlign: 'center' }}>{team.draw}</td>
               <td style={{ textAlign: 'center' }}>{team.lost}</td>
-              <td style={{ textAlign: 'center' }}>{team.points}</td>
               <td style={{ textAlign: 'center' }}>{team.goalsFor}</td>
               <td style={{ textAlign: 'center' }}>{team.goalsAgainst}</td>
               <td style={{ textAlign: 'center' }}>{team.goalDifference}</td>

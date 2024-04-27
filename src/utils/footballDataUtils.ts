@@ -56,3 +56,13 @@ export const getCompetitionStandings = async (code: string): Promise<IStandings>
 
     return responseJson.standings[0];
 }
+
+export const getTeamById= async (teamId: string): Promise<any> => {
+    const response = await fetch(`${footballUrl}/teams/${teamId}/`, {
+        method: 'GET',
+        headers: {
+            'X-Auth-Token': API_TOKEN
+        }
+    });
+    return await response.json();
+}

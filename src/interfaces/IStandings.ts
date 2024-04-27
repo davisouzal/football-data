@@ -7,7 +7,7 @@ export interface IStandings {
 
 export interface ITable {
     position: number;
-    team: ITeam;
+    team: ITeamStandings;
     playedGames: number;
     form: null;
     won: number;
@@ -19,10 +19,11 @@ export interface ITable {
     goalDifference: number;
 }
 
-export interface ITeam {
+export interface ITeamStandings {
     id: number;
     name: string;
     shortName: string;
     tla: string;
-    crestUrl: string;
+    crestUrl?: string;
+    crest?: string;
 }

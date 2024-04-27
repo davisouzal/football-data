@@ -18,7 +18,7 @@ export interface ICompetition {
     lastUpdated: string;
 }
 
-interface IArea {
+export interface IArea {
     id: number;
     name: string;
     code: string;
