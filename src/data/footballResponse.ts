@@ -97,6 +97,6 @@ const footballReponse = {
             lastUpdated: '2022-03-20T09:20:44Z',
         },
     ],
-}
+};
 
-export default footballReponse
+export default footballReponse;

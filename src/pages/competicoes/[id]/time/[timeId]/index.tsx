@@ -1,36 +1,36 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import { ISquad, ITeamComplete } from '~/interfaces/ITeam'
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { ISquad, ITeamComplete } from '~/interfaces/ITeam';
 
 const timePage = () => {
-    const router = useRouter()
-    const { id, timeId } = router.query
-    const [loading, setLoading] = useState(true)
-    const [team, setTeam] = useState<ITeamComplete | null>(null)
+    const router = useRouter();
+    const { id, timeId } = router.query;
+    const [loading, setLoading] = useState(true);
+    const [team, setTeam] = useState<ITeamComplete | null>(null);
     useEffect(() => {
         const fetchReponse = async () => {
             try {
                 const response = await fetch(
                     `/api/competicao/${id}/time/${timeId}`
-                )
-                const data = await response.json()
-                setTeam(data)
-                setLoading(false)
+                );
+                const data = await response.json();
+                setTeam(data);
+                setLoading(false);
             } catch (error) {
-                console.error('Erro ao buscar dados de classificação:', error)
-                setLoading(false)
+                console.error('Erro ao buscar dados de classificação:', error);
+                setLoading(false);
             }
-        }
+        };
 
         if (id) {
-            fetchReponse()
+            fetchReponse();
         }
-    }, [id])
+    }, [id]);
 
     if (loading) {
-        return <div>Carregando...</div>
+        return <div>Carregando...</div>;
     }
     if (!team) {
         return (
@@ -38,7 +38,7 @@ const timePage = () => {
                 Não foi encontrado um time com esse ID... Você digitou ele
                 corretamente?
             </div>
-        )
+        );
     }
 
     return (
@@ -106,7 +106,7 @@ const timePage = () => {
                 </div>
             )}
         </>
-    )
-}
+    );
+};
 
-export default timePage
+export default timePage;

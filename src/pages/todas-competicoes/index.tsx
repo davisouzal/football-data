@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { ICompetition, ICompetitionResponse } from '~/interfaces/ICompetition'
+import React, { useEffect, useState } from 'react';
+import { ICompetition, ICompetitionResponse } from '~/interfaces/ICompetition';
 
 const Competicoes: React.FC = () => {
     const [competitionResponse, setCompetitionResponse] =
-        useState<ICompetitionResponse | null>(null)
-    const [competitions, setCompetitions] = useState<ICompetition[]>([])
+        useState<ICompetitionResponse | null>(null);
+    const [competitions, setCompetitions] = useState<ICompetition[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/competicao/all')
-                const responseData = await response.json()
+                const response = await fetch('/api/competicao/all');
+                const responseData = await response.json();
 
-                console.log(responseData)
-                setCompetitionResponse(responseData)
-                setCompetitions(responseData.competitions)
+                console.log(responseData);
+                setCompetitionResponse(responseData);
+                setCompetitions(responseData.competitions);
             } catch (error) {
-                console.error('Erro ao buscar competições: ', error)
+                console.error('Erro ao buscar competições: ', error);
             }
-        }
+        };
 
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
 
     return (
         <div>
@@ -40,7 +40,7 @@ const Competicoes: React.FC = () => {
                 </>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default Competicoes
+export default Competicoes;
