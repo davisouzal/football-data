@@ -1,8 +1,8 @@
 export interface IError {
-    message: string
+    message: string;
 }
 
 export interface IRestrictedError extends IError {
-    status: number
-    message: string
+    status: number;
+    message: string;
 }

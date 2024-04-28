@@ -1,36 +1,36 @@
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 
 const StandingsPage = () => {
-    const router = useRouter()
-    const { id } = router.query
-    const [standingsData, setStandingsData] = useState<any>(null)
-    const [loading, setLoading] = useState(true)
+    const router = useRouter();
+    const { id } = router.query;
+    const [standingsData, setStandingsData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStandings = async () => {
             try {
-                const response = await fetch(`/api/competicao/${id}/standings`)
-                const data = await response.json()
-                setStandingsData(data)
-                setLoading(false)
+                const response = await fetch(`/api/competicao/${id}/standings`);
+                const data = await response.json();
+                setStandingsData(data);
+                setLoading(false);
             } catch (error) {
-                console.error('Erro ao buscar dados de classificação:', error)
-                setLoading(false)
+                console.error('Erro ao buscar dados de classificação:', error);
+                setLoading(false);
             }
-        }
+        };
 
         if (id) {
-            fetchStandings()
+            fetchStandings();
         }
-    }, [id])
+    }, [id]);
 
     if (loading) {
-        return <div>Carregando...</div>
+        return <div>Carregando...</div>;
     }
 
     if (!standingsData) {
-        return <div>Dados de classificação não encontrados para o ID {id}</div>
+        return <div>Dados de classificação não encontrados para o ID {id}</div>;
     }
 
     return (
@@ -94,7 +94,7 @@ const StandingsPage = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default StandingsPage
+export default StandingsPage;

@@ -1,82 +1,82 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { ICompetition } from '~/interfaces/ICompetition'
-import { useRouter } from 'next/router'
+import React, { useEffect, useState, useRef } from 'react';
+import { ICompetition } from '~/interfaces/ICompetition';
+import { useRouter } from 'next/router';
 
 const Competicoes: React.FC = () => {
-    const [competitionName, setCompetitionName] = useState<string>('')
-    const [competition, setCompetition] = useState<ICompetition | null>(null)
-    const [suggestions, setSuggestions] = useState<string[]>([])
-    const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
-    const [allSuggestions, setAllSuggestions] = useState<string[]>([])
-    const inputRef = useRef<HTMLInputElement>(null)
+    const [competitionName, setCompetitionName] = useState<string>('');
+    const [competition, setCompetition] = useState<ICompetition | null>(null);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+    const [allSuggestions, setAllSuggestions] = useState<string[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         const fetchCompetitionNames = async () => {
             try {
-                const response = await fetch('/api/competicao/names')
-                const data = await response.json()
-                setAllSuggestions(data)
+                const response = await fetch('/api/competicao/names');
+                const data = await response.json();
+                setAllSuggestions(data);
             } catch (error) {
-                console.error('Erro ao buscar sugestões: ', error)
+                console.error('Erro ao buscar sugestões: ', error);
             }
-        }
+        };
 
-        fetchCompetitionNames()
+        fetchCompetitionNames();
 
         const handleEscape = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
-                setShowSuggestions(false)
+                setShowSuggestions(false);
             }
-        }
+        };
 
-        document.addEventListener('keydown', handleEscape)
-    }, [])
+        document.addEventListener('keydown', handleEscape);
+    }, []);
 
     const handleSearch = async () => {
         try {
             const response = await fetch(
                 `/api/competicao/codes?name=${competitionName}`
-            )
-            const data = await response.json()
-            setCompetition(data)
+            );
+            const data = await response.json();
+            setCompetition(data);
         } catch (error) {
-            console.error('Erro ao buscar competição: ', error)
+            console.error('Erro ao buscar competição: ', error);
         }
-    }
+    };
 
     const handleSuggestionClick = (suggestion: string) => {
-        setCompetitionName(suggestion)
-        setShowSuggestions(false)
-    }
+        setCompetitionName(suggestion);
+        setShowSuggestions(false);
+    };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target
-        setCompetitionName(value)
+        const { value } = event.target;
+        setCompetitionName(value);
 
         const filteredSuggestions = allSuggestions.filter((suggestion) =>
             suggestion.toLowerCase().includes(value.toLowerCase())
-        )
-        setSuggestions(filteredSuggestions.slice(0, 5))
-        setShowSuggestions(true)
+        );
+        setSuggestions(filteredSuggestions.slice(0, 5));
+        setShowSuggestions(true);
 
         if (value === '') {
-            setCompetition(null)
+            setCompetition(null);
         }
-    }
+    };
 
     const handleButtonClick = () => {
-        handleSearch()
-        setShowSuggestions(false)
-    }
+        handleSearch();
+        setShowSuggestions(false);
+    };
 
     const handleCompeticaoClick = () => {
-        console.log('Clicou na competição', competition)
+        console.log('Clicou na competição', competition);
         if (competition && competition.code) {
-            router.push(`/competicoes/${competition.code}/standings`)
+            router.push(`/competicoes/${competition.code}/standings`);
         }
-    }
+    };
 
     return (
         <div style={{ position: 'relative' }}>
@@ -196,7 +196,7 @@ const Competicoes: React.FC = () => {
                 </p>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default Competicoes
+export default Competicoes;
