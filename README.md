@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Football Data App
 
-## Getting Started
+## Descrição do Projeto
 
-First, run the development server:
+Este projeto consiste em uma aplicação web para visualização de dados de competições de futebol e informações sobre times e jogadores. Utilizando a API da Football-Data.org, os usuários podem buscar competições por nome, visualizar a classificação das competições, e obter detalhes sobre times e jogadores.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tecnologias Utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js
+- React
+- TypeScript
+- API da Football-Data.org
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requisitos do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 1. Filtrar Códigos de Liga com Detalhes e Bandeiras
 
-## Learn More
+**a) API Next.js:**
+- Rota `/api/competicao/codes` para buscar dados de competições por nome.
+- Utilização da chave de API da Football-Data.org para obter os dados.
+- Filtro das competições por código e retorno de um JSON com os códigos e ícones dos campeonatos.
 
-To learn more about Next.js, take a look at the following resources:
+**b) Interface do Usuário:**
+- Página `pages/competicoes/index.tsx` com interface para filtrar o nome do campeonato.
+- Componente de pesquisa com autocomplete para facilitar a busca.
+- Chamadas à API interna `/api/competicao/codes` para buscar os dados em tempo real.
+- Exibição dos resultados da busca em uma lista com o código do campeonato, nome completo e bandeira do país.
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Standings e Jogadores Destaque
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**a) API Next.js:**
+- Rota `/api/competicao/:code/standings` para obter dados da classificação da competição.
+- Utilização da chave de API da Football-Data.org para buscar os dados da classificação.
+- Retorno de um JSON com os times da temporada atual.
 
-## Deploy on Vercel
+**b) Interface do Usuário:**
+- Página `pages/competicoes/[id]/standings.tsx` para exibir os detalhes da competição selecionada.
+- Exibição da classificação completa da competição, incluindo times, pontos, vitórias, etc.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Detalhes do Time e Jogador
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**a) API Next.js:**
+- Rota `/api/competicao/:id/time/:timeId` para obter dados do time selecionado.
+- Utilização da chave de API da Football-Data.org para buscar os dados do time.
+- Retorno de um JSON com o nome completo do time, escudo, estádio, treinador, lista de jogadores e respectivas informações.
+- Rota `/api/jogador/:id` para obter dados do jogador selecionado.
+- Utilização da chave de API da Football-Data.org para buscar os dados do jogador.
+- Retorno de um JSON com o nome completo do jogador e informações relevantes.
+
+**b) Interface do Usuário:**
+- Página `pages/competicoes/[id]/time/[timeId]` para exibir os detalhes do time selecionado.
+- Exibição do nome completo do time, escudo e lista de jogadores com seus respectivos nomes.
+- Inclusão de fotos dos jogadores e links para suas páginas de perfil individuais.
+- Página `pages/jogador/[id]` para exibir os detalhes do jogador selecionado.
+- Exibição dos dados do jogador na tela.
+
+## Comandos
+
+Os seguintes comandos são úteis para o desenvolvimento e execução do projeto:
+
+-   `dev`: Inicia o servidor de desenvolvimento do Next.js.
+-   `build`: Compila o projeto para produção.
+-   `start`: Inicia o servidor em produção.
+-   `lint`: Executa a verificação de linting no código.
+-   `format`: Formata automaticamente o código usando o Prettier.
